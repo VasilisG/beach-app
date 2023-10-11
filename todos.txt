@@ -1,0 +1,53 @@
+- Mark a place as a beach (Submit a form with name, location, photos, comments). [DONE]
+- Delete place.                                                                  [DONE]
+- Add photos to a place.                                                         [DONE]
+- Add comments to a place.                                                       [DONE]
+- Register / Login                                                               [DONE]
+- Delete photos.                                                                 [DONE]
+- Zoom photos.                                                                   [DONE]
+- Delete comments.                                                               [DONE]
+- Add place param to load place popup (if any).                                  [DONE]
+- Refactor JS.                                                                   [DONE]
+- Popup for deletion.                                                            [DONE]
+- Info popup instead of console.log().                                           [DONE]
+- User content.                                                                  [DONE]
+- Fetch comments when adding new one.                                            [DONE]
+- Add delete action only to current user's content.                              [DONE]
+- Responsive                                                                     [-]
+- TESTING                                                                        [-]
+
+Place
+------------
+place_id
+user_id
+lat
+long
+name
+description
+photos
+comments
+date_created
+
+User
+-----------
+user_id
+username
+password_hash
+date_created
+last_login
+
+Comments
+-----------
+comment_id
+place_id
+user_id
+content
+date_created
+
+Photos
+-----------
+photo_id
+place_id
+user_id
+filename
+date_created

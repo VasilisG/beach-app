@@ -1,0 +1,848 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    font-family: 'Manrope', sans-serif;
+}
+textarea {
+    resize: none;
+}
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+input, button, a, textarea {
+    font-family: 'Manrope', sans-serif;
+}
+.leaflet-container {
+    height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    max-height: 100%;
+    cursor: crosshair;
+}
+.side-actions {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    z-index: 1000;
+    padding: 10px;
+    padding-right: 5px;
+    height: 150px;
+    background: rgb(80,80,80);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    box-shadow: 0px 0px 10px rgb(0,0,0);
+}
+.side-action {
+    cursor: pointer;
+    display: block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    background: rgb(57, 57, 57);
+    color: rgb(255,255,255);
+    overflow: hidden;
+    transition: 0.3s all;
+}
+.side-action:not(.menu-toggle-active):hover, .side-action:not(.user-status):hover {
+    background: rgb(20, 20, 20);
+    color: rgb(255, 255, 255);
+}
+.user-status {
+    cursor: auto;
+}
+.side-action.user-loggedin, .side-action.user-loggedin:hover {
+    background: rgb(42, 162, 61);
+}
+.side-action.user-loggedout, .side-action.user-loggedout:hover {
+    background: rgb(213, 45, 45);
+}
+.menu-container {
+    position: fixed;
+    width: 250px;
+    top: 0;
+    left: -250px;
+    height: 100%;
+    z-index: 1000;
+    background: rgb(57,57,57);
+    transition: 0.3s all;
+    box-shadow: 0px 0px 5px rgb(0,0,0);
+}
+.menu-container-active {
+    left: 0;
+}
+.menu-close-container {
+    padding: 5px 10px 0 10px;
+    color: rgb(255,255,255);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: flex-end;
+}
+.menu-close {
+    font-size: 24px;
+    cursor: pointer;
+    display: block;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    transition: 0.3s all;
+}
+.menu-close:hover {
+    background: rgb(30,30,30);
+}
+.nav-action {
+    display: block;
+    padding-left: 20px;
+    color: rgb(255,255,255);
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    transition: 0.3s all;
+}
+.nav-action-inactive {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: auto;
+}
+.nav-action:not(.nav-action-inactive):hover {
+    background: rgb(38, 38, 38);
+}
+.nav-action .fa-solid {
+    width: 20px;
+}
+.nav-group {
+    margin-bottom: 30px;
+    display: block;
+}
+.nav-hr {
+    width: 80px;
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+    position: relative;
+    left: 20px;
+    border-top: 0;
+}
+.nav-action-name {
+    margin-left: 20px;
+}
+.popup-container {
+    min-width: 800px;
+    width: 50%;
+    margin: auto;
+    border-radius: 10px;
+    background: rgb(57,57,57);
+    overflow: hidden;
+    box-shadow: 0px 0px 10px rgb(0,0,0);
+}
+.close-popup-container {
+    padding: 10px;
+    background: rgb(57,57,57);
+    color: rgb(255,255,255);
+    text-align: center;
+    position: relative;
+}
+.close-popup, .modal-close-popup {
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 7px;
+    font-size: 20px;
+    bottom: 9px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    background: rgb(226, 56, 56);
+    transition: 0.3s all;
+    border-radius: 5px;
+}
+.close-popup:hover, .modal-close-popup:hover {
+    background: rgb(255, 89, 89);
+}
+.user-field {
+    appearance: none;
+    border: none;
+    color: rgb(0,0,0);
+    background: rgb(242, 242, 242);
+    width: 100%;
+    height: 100%;
+    outline: none;
+    padding: 0 0 0 20px;
+    font-size: 16px;
+}
+.item-field {
+    appearance: none;
+    border: none;
+    color: rgb(0,0,0);
+    background: rgb(242, 242, 242);
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: 1px solid rgb(217, 217, 217);
+}
+.user-field-container {
+    height: 40px;
+    width: 65%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    background: rgb(242,242,242);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.item-field-container {
+    width: 75%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    background: rgb(242,242,242);
+    border-radius: 10px;
+}
+.item-field-container input[type="text"] {
+    height: 40px;
+    font-size: 16px;
+}
+.user-field-container:first-child {
+    margin-top: 0;
+}
+.submit-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
+.user-field-container .fa-envelope, .user-field-container .fa-user, .user-field-container .fa-key {
+    height: 100%;
+    width: 40px;
+    min-width: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: rgba(57, 57, 57, 0.5);
+}
+.submit-button {
+    appearance: none;
+    border: none;
+    outline: none;
+    width: 160px;
+    height: 35px;
+    color: rgb(255,255,255);
+    background: rgb(24,106,213);
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s all;
+}
+.submit-button:hover {
+    background: rgb(17, 81, 166);
+}
+.submit-button:active {
+    background: rgb(9, 46, 96);
+}
+.register-container.popup-container, .login-container.popup-container {
+    width: 40%;
+}
+.ui-form {
+    padding: 25px 0;
+    background: rgb(255,255,255);
+}
+input.item-field {
+    padding: 0 20px;
+}
+textarea.item-field {
+    padding: 10px 20px;
+}
+textarea#user-comment-field {
+    box-sizing: border-box;
+    height: 100px;
+}
+.tabs {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+.tab {
+    cursor: pointer;
+    min-width: 150px;
+    text-align: center;
+    padding: 10px;
+    background: rgb(235,235,235);
+    transition: 0.3s all;
+    margin: 0 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 2px rgb(255,255,255);
+}
+.tab:not(.active-tab):hover {
+    background: rgb(20,20,20);
+    color: rgb(255,255,255);
+}
+.active-tab {
+    background: rgb(20,20,20);
+    color: rgb(255,255,255);
+}
+.tab > span {
+    margin-left: 15px;
+}
+.tab > .comment-total, .tab > .photo-total {
+    margin-left: 5px;
+}
+.tab-container, .section-view-container {
+    background: rgb(255,255,255);
+}
+.tab-container {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 0 10px;
+}
+.tab:not(:last-child)::after {
+    content: '';
+    border-left: 1px solid;
+    position: absolute;
+    right: -10px;
+    height: 50%;
+    color: rgb(185, 185, 185);
+}
+.section-view {
+    display: none;
+    height: 0;
+    position: relative;
+}
+.active-section-view {
+    display: block;
+    height: 550px;
+    padding: 20px;
+    overflow: auto;
+}
+.popup-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background: rgb(255,255,255);
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s all;
+}
+.popup-container.popup-container-active {
+    opacity: 1 !important;
+    z-index: 3000 !important;
+    pointer-events: auto;
+}
+.menu-toggle-active {
+    background: rgb(255, 201, 38);
+    color: black;
+}
+.photo-field-container {
+    background: white;
+    flex-direction: column;
+    align-items: start;
+}
+.photo-field-container #photo-field {
+    border-radius: 0;
+}
+.photo-field-container .field-label::after {
+    content: '';
+    width: 120px;
+    border-top: 1px solid rgb(0,0,0);
+    display: block;
+    position: relative;
+    top: 5px;
+}
+.photo-field-container .field-label {
+    margin-bottom: 20px;
+}
+.nav-action-inactive {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: auto;
+}
+.nav-group-title {
+    padding-left: 20px;
+    color: rgba(255,255,255,0.3);
+    margin: 0 0 15px 0;
+}
+.output-message-container {
+    background: rgb(255,255,255);
+    text-align: center;
+    padding-bottom: 20px;
+    display: none;
+}
+.output-message-container-active {
+    display: block;
+}
+.output-message {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+}
+.success-message {
+    color: rgb(255,255,255);
+    background: rgb(25, 134, 25);
+}
+.error-message {
+    color: rgb(255,255,255);
+    background: rgb(198, 37, 37);
+}
+.photo-preview-container {
+    width: 75%;
+    margin: 20px auto;
+    display: grid;
+    max-height: 220px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+}
+.preview-photo {
+    max-width: 150px;
+    margin: auto;
+}
+.section-inner {
+    margin-bottom: 30px;
+    background: rgb(245, 245, 245);
+    padding: 15px;
+    border: 1px solid rgb(217, 217, 217);
+}
+.section-title {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid;
+    display: inline-block;
+    color: rgb(183, 183, 183);
+}
+.section-wrapper.name-wrapper .section-title-name {
+    font-size: 24px;
+    color: rgb(0,0,0);
+    letter-spacing: 0.4px;
+    font-weight: bold;
+    text-align: center;
+}
+.place-comments, .user-comments {
+    padding: 0 20px;
+    overflow: auto;
+    max-height: 470px;
+}
+.view-beach-container:not(.logged-user-container) .place-comments {
+    max-height: inherit;
+}
+.place-comment {
+    background: rgb(242, 242, 242);
+    padding: 10px 20px 20px 20px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(180, 180, 180);
+}
+.place-comment:first-child {
+    margin-top: 10px;
+}
+.place-comment-info {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgb(215, 215, 215);
+}
+.place-comment-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: end;
+}
+.place-comment-actions .delete-comment-action {
+    color: rgb(255,255,255);
+    cursor: pointer;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    background: rgb(219, 43, 43);
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: 0.3s all ease;
+}
+.place-comment-actions .delete-comment-action:hover {
+    background: rgb(168, 34, 34);
+}
+.place-comment-actions .delete-comment-action::before {
+    content: '\f2ed';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: bold;
+}
+.comment-creator-name {
+    font-weight: normal;
+    color: rgb(0,0,0);
+}
+.comment-creation-date-info {
+    font-weight: normal;
+    color: rgb(145, 145, 145);
+}
+.comment-creator-name, .comment-creation-date-info {
+    font-style: normal;
+    font-size: 18px;
+    letter-spacing: 0.4px;
+}
+.photo-view .place-photos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-height: 470px;
+    overflow: auto;
+    padding: 0 20px;
+}
+.photo-view .place-photos .place-photo {
+    position: relative;
+    overflow: hidden;
+    margin: 5px;
+    cursor: pointer;
+    border: 1px solid #000;
+}
+.photo-view .place-photos .place-photo-image {
+    width: 100%;
+    height: 100%;
+}
+.place-photo-info {
+    position: absolute;
+    bottom: 0;
+    color: rgb(255,255,255);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0) 100%);
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    opacity: 0;
+    transition: 0.3s opacity ease;
+}
+.photo-view .place-photos .place-photo:hover .place-photo-info, .photo-view .place-photos .place-photo:hover .place-photo-actions {
+    opacity: 1;
+}
+.place-photo-info span {
+    text-shadow: 0 1px rgb(0,0,0);
+    position: relative;
+    top: 5px;
+}
+.comment-creator, .comment-creation-date {
+    font-style: italic;
+    font-size: 14px;
+    font-weight: lighter;
+    color: rgb(135, 135, 135);
+}
+.comment-creator-name {
+    margin-left: 5px;
+}
+.section-hr {
+    border: none;
+    border-bottom: 1px solid rgb(57,57,57);
+    margin: 0;
+}
+.place-description-inner {
+    height: 385px;
+    max-height: 385px;
+}
+.add-comment-button.submit-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+.add-comment-form {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-top: 1px solid rgb(57, 57, 57);
+}
+.add-action-container {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.add-comment-form .item-field-container {
+    width: 100%;
+    margin-top: 0;
+}
+.add-comment-form .submit-container {
+    margin: 0;
+}
+.section-view.comment-view, .section-view.photo-view {
+    padding: 0 0 20px 0;
+    height: 570px;
+}
+#user-comment-field {
+    border: 1px solid rgb(170, 166, 166);
+}
+.place-comment.own-comment {
+    background: rgb(255, 247, 227);
+}
+.place-comment.own-comment .place-comment-info {
+    border-bottom: 1px solid rgb(140, 140, 140);
+}
+.own-comment .comment-creator-name {
+    font-weight: bold;
+}
+.select-photo-button.submit-button {
+    text-align: center;
+    line-height: 35px;
+}
+.add-photo-form {
+    height: 100%;
+    display: flex;
+    border-top: 1px solid rgb(0, 0, 0);
+    background: rgb(255,255,255);
+}
+.add-photo-form .photo-field {
+    display: none;
+}
+.add-photo-form .field-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.add-photo-form .preview-photos {
+    width: 75%;
+}
+.add-photo-form .submit-container {
+    width: 25%;
+    margin-top: 0;
+    border-left: 1px solid rgb(0, 0, 0);
+}
+.delete-place-action {
+    background: rgb(219, 43, 43);
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    color: rgb(255,255,255);
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s all ease;
+    margin-left: 10px;
+}
+.delete-place-action:hover, .place-photo-actions .delete-photo-action:hover {
+    background: rgb(168, 34, 34);
+}
+.delete-place-action .fa-trash-can {
+    margin-right: 10px;
+}
+.place-photo-actions {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: end;
+    opacity: 0;
+    transition: 0.3s opacity ease;
+}
+.place-photo-actions .delete-photo-action {
+    color: rgb(255,255,255);
+    background: rgb(219, 43, 43);
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 14px;
+    transition: 0.3s all ease;
+}
+.place-photo-actions .delete-photo-action::before {
+    content: '\f2ed';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: bold;
+}
+.place-photo-actions .delete-photo-action span {
+    display:none;
+}
+.add-photo-form .preview-photos {
+    width: 75%;
+    overflow-x: auto;
+    display: flex;
+}
+.add-photo-form .preview-photos {
+    width: 75%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    justify-content: start;
+    padding: 10px;
+    gap: 10px;
+}
+.preview-photos .preview-photo {
+    margin: 0;
+}
+.lb-data .lb-caption {
+    font-size: 16px !important;
+}
+.modal-body {
+    padding: 10px;
+    text-align: center;
+}
+.modal-actions {
+    margin-top: 10px;
+}
+.modal.popup-container {
+    width: 600px;
+    min-width: unset;
+    z-index: 4000 !important;
+}
+.modal .submit-button {
+    width: 100px;
+    height: 25px;
+}
+.modal .submit-button.cancel-button {
+    background: rgb(172, 172, 172);
+}
+.modal .submit-button.cancel-button:hover {
+    background: rgb(128, 128, 128);
+}
+.info-popup {
+    position: fixed;
+    bottom: -200px;
+    left: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    height: 100px;
+    width: 350px;
+    padding: 10px;
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    background: rgb(191, 163, 139);
+    transition: 0.3s all ease;
+}
+.info-popup-active {
+    bottom: 20px;
+    transition: 0.3s all ease;
+}
+.success-info {
+    background: rgb(32, 189, 79);
+}
+.error-info {
+    background: rgb(224, 40, 40);
+}
+.modal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    background: rgb(0,0,0);
+    opacity: 0;
+    z-index: -1;
+    transition: 0.3s opacity ease;
+}
+.modal-overlay-active {
+    opacity: 0.4;
+    z-index: 3000;
+    transition: 0.3s opacity ease;
+}
+.place-group-name-container {
+    text-align: center;
+    margin-top: 20px;
+    border-bottom: 2px solid rgb(24,106,213);
+}
+.place-group-name {
+    text-align: center;
+    padding: 0px 20px;
+    background: rgb(24,106,213);
+    box-sizing: border-box;
+    display: inline-block;
+    height: 30px;
+    color: rgb(255,255,255);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    line-height: 30px;
+}
+.user-place {
+    padding: 25px 20px;
+    border: 1px solid rgb(180, 180, 180);
+    background: rgb(245, 245, 245);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.user-place:not(:first-child) {
+    margin-top: 10px;
+}
+.share-place-action, .view-place-action {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    color: rgb(255,255,255);
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s all ease;
+}
+.view-place-action {
+    background: rgb(24,106,213);
+    margin-left: 10px;
+}
+.view-place-action:hover {
+    background: rgb(17, 81, 166);
+}
+.view-place-action:active {
+    background: rgb(9, 46, 96);
+}
+.share-place-action {
+    background: rgb(33, 151, 118);
+}
+.share-place-action:hover {
+    background: rgb(27, 132, 102);
+}
+.share-place-action:active {
+    background: rgb(19, 96, 74);
+}
+.user-comments, .place-group-comments {
+    max-height: unset;
+}
+.place-group-comments {
+    padding: 0;
+}
+.user-photos {
+    padding: 0 20px;
+}
+.photo-view .place-group-photos {
+    max-height: unset;
+    padding: 0;
+}
+.place-group-comments .place-comment-info {
+    justify-content: end;
+}
+.place-marker-info-container {
+    width: 400px;
+    padding: 20px;
+    text-align: center;
+    background: rgb(19, 17, 9);
+    color: rgb(255,255,255);
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+.place-marker-info-container.place-marker-active {
+    opacity: 1;
+}
